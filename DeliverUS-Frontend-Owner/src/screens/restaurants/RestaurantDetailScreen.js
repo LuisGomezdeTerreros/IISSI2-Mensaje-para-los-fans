@@ -15,10 +15,19 @@ import defaultProductImage from '../../../assets/product.jpeg'
 export default function RestaurantDetailScreen ({ navigation, route }) {
   const [restaurant, setRestaurant] = useState({})
   const [productToBeDeleted, setProductToBeDeleted] = useState(null)
+  const [colorMensaje, setColorMensaje] = useState('black')
 
   useEffect(() => {
     fetchRestaurantDetail()
   }, [route])
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setColorMensaje(prevColor => (prevColor === 'black' ? 'blue' : 'black'))
+    }, 1000)
+
+    return () => clearInterval(interval)
+  }, [])
 
   const renderHeader = () => {
     return (
@@ -31,6 +40,12 @@ export default function RestaurantDetailScreen ({ navigation, route }) {
             <TextRegular textStyle={styles.description}>{restaurant.restaurantCategory ? restaurant.restaurantCategory.name : ''}</TextRegular>
           </View>
         </ImageBackground>
+        { restaurant.mensaje &&
+        <TextSemiBold textStyle={[{
+          fontSize: 20,
+          color: colorMensaje,
+          textAlign: 'center'
+        }]}>{restaurant.mensaje}</TextSemiBold> }
 
         <Pressable
           onPress={() => navigation.navigate('CreateProductScreen', { id: restaurant.id })
@@ -200,6 +215,11 @@ const styles = StyleSheet.create({
   },
   description: {
     color: 'white'
+  },
+  textMensaje: {
+    fontSize: 20,
+    color: 'black',
+    textAlign: 'center'
   },
   textTitle: {
     fontSize: 20,

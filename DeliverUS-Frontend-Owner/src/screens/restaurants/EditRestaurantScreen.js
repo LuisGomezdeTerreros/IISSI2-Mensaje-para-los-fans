@@ -56,7 +56,11 @@ export default function EditRestaurantScreen ({ navigation, route }) {
       .number()
       .positive()
       .integer()
-      .required('Restaurant category is required')
+      .required('Restaurant category is required'),
+      mensaje: yup
+      .string()
+      .max(500, 'Address too long')
+      .min(1, 'Address too short')
   })
 
   useEffect(() => {
@@ -185,6 +189,10 @@ export default function EditRestaurantScreen ({ navigation, route }) {
               <InputItem
                 name='phone'
                 label='Phone:'
+              />
+               <InputItem
+                name='mensaje'
+                label='Mensaje:'
               />
 
               <DropDownPicker
